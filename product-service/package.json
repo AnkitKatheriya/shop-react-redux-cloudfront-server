@@ -8,14 +8,20 @@
     "deploy": "sls deploy",
     "undeploy": "serverless remove",
     "run:product-list": "sls invoke local --function getProductsList",
-    "run:get-by-id": "sls invoke local --function getProductsById --path src/functions/getProductsById/mock.json"
+    "run:get-by-id": "sls invoke local --function getProductsById --path src/functions/getProductsById/mock.json",
+    "add:mock:data:into:table": "npx ts-node ./src/fill_table_data.ts"
   },
   "engines": {
     "node": ">=14.15.0"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.284.0",
+    "@aws-sdk/lib-dynamodb": "^3.284.0",
     "@middy/core": "^3.4.0",
-    "@middy/http-json-body-parser": "^3.4.0"
+    "@middy/http-error-handler": "^4.2.6",
+    "@middy/http-json-body-parser": "^3.4.0",
+    "@middy/validator": "^4.2.6",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@jest/globals": "^29.4.3",

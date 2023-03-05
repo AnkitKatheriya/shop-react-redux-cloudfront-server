@@ -3,6 +3,7 @@ export interface IProduct {
     id: string;
     price: number;
     title: string;
+    count?: number;
   }
   
   export type Products = IProduct[];

@@ -50,6 +50,60 @@
           }
         }
       }
+    },
+    "/products": {
+      "post": {
+        "summary": "createProduct",
+        "description": "",
+        "operationId": "createProduct.post./products",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Body required in the request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateProductRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Newly added product",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        }
+      }
+    },
+    "/products/available": {
+      "get": {
+        "summary": "getProductsListAvailable",
+        "description": "",
+        "operationId": "getProductsListAvailable.get./products/available",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Products List",
+            "schema": {
+              "$ref": "#/definitions/Products"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -70,6 +124,10 @@
         "title": {
           "title": "IProduct.title",
           "type": "string"
+        },
+        "count": {
+          "title": "IProduct.count",
+          "type": "number"
         }
       },
       "required": [
