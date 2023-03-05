@@ -1,11 +1,6 @@
-interface IProduct {
-    description: string,
-    id: string,
-    price: number,
-    title: string,
-}
+import { Products } from '../../types/api-types'
 
-export const products: IProduct[] = [
+export const products: Products = [
     {
       description: "Short Product Description1",
       id: "7567ec4b-b10c-48c5-9345-fc73c48a80aa",
