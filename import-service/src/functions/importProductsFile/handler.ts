@@ -21,6 +21,10 @@ const importProductsFile = async (event: APIGatewayEvent) => {
   const putUrl = await getSignedUrl(client, command);
   return {
     statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true,
+  },
     body: putUrl,
   };
 };
