@@ -1,0 +1,10 @@
+{
+    "Records": [
+      {
+        "body": "{\"id\":\"testproduct1\",\"title\":\"testproducttitle1\",\"description\":\"testproductdescription1\",\"price\":34,\"count\":3}"
+      },
+      {
+        "body": "{\"id\":\"testproduct2\",\"title\":\"testproducttitle2\",\"description\":\"testproductdescription1\",\"price\":12,\"count\":5}"
+      }
+    ]
+  }
