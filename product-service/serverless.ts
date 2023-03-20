@@ -12,7 +12,7 @@ const serverlessConfiguration: AWS = {
   plugins: ['serverless-auto-swagger', 'serverless-esbuild'],
   provider: {
     name: 'aws',
-    runtime: 'nodejs14.x',
+    runtime: 'nodejs18.x',
     region: REGION,
     apiGateway: {
       minimumCompressionSize: 1024,
