@@ -1,11 +1,13 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
+    BatchWriteCommand,
+    BatchWriteCommandInput,
     DynamoDBDocumentClient,
-    GetCommand,
+    // GetCommand,
     PutCommand,
     ScanCommand,
 } from "@aws-sdk/lib-dynamodb";
-import { REGION, TABLE_NAME } from "src/constants";
+import { REGION, TABLE_NAME } from "../constants"
 import { IProduct, Products } from "./product";
 import { products } from './mockData'
 
@@ -60,4 +62,27 @@ export async function getAllAvailableProducts(
         },
       })
     );
+  }
+
+  export async function batchPutProduct(products: IProduct[]) : Promise<string[]> {
+    const putRequests = products.map((product) => {
+      return {
+        PutRequest: {
+          Item: product
+        }
+      }
+    })
+
+    const batch: BatchWriteCommandInput = {
+      RequestItems: {
+        [TABLE_NAME]: putRequests
+      }
+    }
+
+    const result = await documentClient.send(new BatchWriteCommand(batch))
+    const failedIds: string[] = result.UnprocessedItems[TABLE_NAME]?.map((request) => {
+      return request?.PutRequest?.Item?.id
+    }) || []
+
+    return failedIds
   }

@@ -3,7 +3,7 @@ import { formatJSONResponse } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
 
 import schema from './schema';
-import { queryProductById } from 'src/repository/products';
+import { queryProductById } from '../../repository/products';
 
 export const getProductsById: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
   const productId = event.pathParameters.productId;

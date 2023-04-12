@@ -4,7 +4,7 @@ import { middyfy } from '@libs/lambda';
 
 // import { products } from './data';
 import schema from './schema';
-import { getAllProducts } from 'src/repository/products';
+import { getAllProducts } from '../../repository/products';
 
 
 export const getProductsList: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async () => {

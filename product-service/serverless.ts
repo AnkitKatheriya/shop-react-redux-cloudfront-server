@@ -3,8 +3,12 @@ import getProductsList from '@functions/getProductsList'
 import getProductsById from '@functions/getProductsById';
 import getProductsListAvailable from '@functions/getProductsListAvailable';
 import createProduct from '@functions/createProduct';
+import catalogBatchProcess from '@functions/catalogBatchProcess'
 
-import { REGION, TABLE_NAME } from 'src/constants';
+import { REGION } from "./src/constants";
+import { ProductsTable } from "./serverless_resources/dynamodb";
+import { ImportQueue } from "./serverless_resources/sqs";
+import { Notifications } from "./serverless_resources/notifications";
 
 const serverlessConfiguration: AWS = {
   service: 'product-service',
@@ -36,6 +40,11 @@ const serverlessConfiguration: AWS = {
           },
         ],
       },
+      {
+        Effect: "Allow",
+        Action: ["sns:Publish"],
+        Resource: [{ "Fn::GetAtt": ["Notifications", "TopicArn"] }],
+      },
     ],
   },
   // import the function via paths
@@ -44,6 +53,7 @@ const serverlessConfiguration: AWS = {
     getProductsById,
     createProduct,
     getProductsListAvailable,
+    catalogBatchProcess,
   },
   package: { individually: true },
   custom: {
@@ -64,58 +74,9 @@ const serverlessConfiguration: AWS = {
   },
   resources: {
     Resources: {
-      ProductsTable: {
-        Type: "AWS::DynamoDB::Table",
-        Properties: {
-          TableName: TABLE_NAME,
-          AttributeDefinitions: [
-            {
-              AttributeName: "id",
-              AttributeType: "S",
-            },
-            {
-              AttributeName: "count",
-              AttributeType: "N",
-            },
-            {
-              AttributeName: "price",
-              AttributeType: "N",
-            },
-          ],
-          KeySchema: [
-            {
-              AttributeName: "id",
-              KeyType: "HASH",
-            },
-            {
-              AttributeName: "price",
-              KeyType: "RANGE",
-            },
-          ],
-          ProvisionedThroughput: {
-            ReadCapacityUnits: 1,
-            WriteCapacityUnits: 1,
-          },
-          LocalSecondaryIndexes: [
-            {
-              IndexName: "AvailableProducts",
-              KeySchema: [
-                {
-                  AttributeName: "id",
-                  KeyType: "HASH",
-                },
-                {
-                  AttributeName: "count",
-                  KeyType: "RANGE",
-                },
-              ],
-              Projection: {
-                ProjectionType: "ALL",
-              },
-            },
-          ],
-        },
-      },
+      ...ProductsTable,
+      ...ImportQueue,
+      ...Notifications,
     },
   },
 };

@@ -32,6 +32,32 @@ const serverlessConfiguration: AWS = {
         Action: ["s3:*"],
         Resource: `arn:aws:s3:::${UPLOAD_BUCKET_NAME}`,
       },
+      {
+        Effect: "Allow",
+        Action: [
+          "ssm:GetParameter",
+          "ssm:GetParameters",
+          "ssm:GetParametersByPath",
+        ],
+        Resource: {
+          "Fn::Join": [
+            ":",
+            [
+              "arn",
+              "aws",
+              "ssm",
+              { Ref: "AWS::Region" },
+              { Ref: "AWS::AccountId" },
+              "parameter/CatalogItemsQueue",
+            ],
+          ],
+        },
+      },
+      {
+        Effect: "Allow",
+        Action: ["sqs:*"],
+        Resource: "*",
+      },
     ],
   },
   // import the function via paths
